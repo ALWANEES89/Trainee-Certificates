@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شهادات المتدرب والمتدربة</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(180deg, #f4f8fb 0%, #eaf1f6 100%);
+      color: #1f2937;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 24px));
+      margin: 24px auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.08);
+      border: 1px solid #e5e7eb;
+    }
+
+    .header {
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .header p {
+      margin: 0;
+      color: #6b7280;
+      line-height: 1.9;
+      font-size: 15px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .form-box,
+    .preview-box {
+      padding: 20px;
+    }
+
+    .form-box {
+      position: sticky;
+      top: 12px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .gender-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .gender-btn {
+      border: 1px solid #d1d5db;
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 14px 12px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .gender-btn.active {
+      background: linear-gradient(135deg, #0f766e, #115e59);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .input {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-family: inherit;
+      font-size: 16px;
+      margin-bottom: 16px;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: #0f766e;
+      box-shadow: 0 0 0 3px rgba(15,118,110,.12);
+    }
+
+    .btns {
+      display: grid;
+      gap: 10px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0f766e, #115e59);
+      color: #fff;
+    }
+
+    .btn-pdf {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+    }
+
+    .btn-png {
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: #fff;
+    }
+
+    .note {
+      margin-top: 16px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.9;
+      color: #475569;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      color: #6b7280;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .preview-wrap {
+      overflow: auto;
+      padding: 12px;
+      border-radius: 20px;
+      background: #eef2f7;
+      border: 1px solid #e5e7eb;
+    }
+
+    .certificate {
+      width: 1123px;
+      height: 794px;
+      margin: auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      box-shadow: 0 14px 35px rgba(0,0,0,0.12);
+      transform-origin: top center;
+    }
+
+    .certificate.male {
+      background-image: url('./assets/male-certificate.png');
+    }
+
+    .certificate.female {
+      background-image: url('./assets/female-certificate.png');
+    }
+
+    .name-layer {
+      position: absolute;
+      top: 318px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 56px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.2;
+      padding: 0 180px;
+      text-shadow: 0 1px 1px rgba(255,255,255,0.45);
+    }
+
+    @media (max-width: 1100px) {
+      .layout { grid-template-columns: 1fr; }
+      .form-box { position: static; }
+      .certificate { transform: scale(.72); margin: -110px auto -110px; }
+    }
+
+    @media (max-width: 800px) {
+      .container { width: min(100% - 14px, 100%); margin: 14px auto; }
+      .header h1 { font-size: 24px; }
+      .certificate { transform: scale(.48); margin: -205px auto -205px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card header">
+      <h1>نظام إصدار شهادة المتدرب والمتدربة</h1>
+      <p>
+        عند فتح الرابط سيظهر اختيار النوع: <strong>ذكر</strong> أو <strong>أنثى</strong>، ثم تكتب الاسم فقط، وبعدها تضغط تحميل.
+        إذا كان الاختيار ذكر ينزل الاسم على شهادة <strong>المتدرب</strong>، وإذا كان أنثى ينزل الاسم على شهادة <strong>المتدربة</strong>.
+      </p>
+    </div>
+
+    <div class="layout">
+      <div class="card form-box">
+        <h2>إدخال البيانات</h2>
+
+        <label class="label">اختر النوع</label>
+        <div class="gender-options">
+          <button class="gender-btn active" id="maleBtn" type="button">ذكر</button>
+          <button class="gender-btn" id="femaleBtn" type="button">أنثى</button>
+        </div>
+
+        <label class="label" for="traineeName">اسم المتدرب / المتدربة</label>
+        <input id="traineeName" class="input" type="text" placeholder="اكتب الاسم هنا" />
+
+        <div class="btns">
+          <button id="downloadPdfBtn" class="btn btn-pdf" type="button">تحميل PDF</button>
+          <button id="downloadPngBtn" class="btn btn-png" type="button">تحميل PNG</button>
+          <button id="previewBtn" class="btn btn-primary" type="button">تحديث المعاينة</button>
+        </div>
+
+        <div class="note">
+          ارفع داخل GitHub مجلد باسم <code>assets</code> وضع بداخله الصورتين التاليتين:<br>
+          <code>male-certificate.png</code> لشهادة المتدرب<br>
+          <code>female-certificate.png</code> لشهادة المتدربة<br><br>
+          المهم أن تكون الصورتان بنفس التصميم النهائي للشهادات.
+        </div>
+      </div>
+
+      <div class="card preview-box">
+        <div class="topbar">
+          <h2>معاينة الشهادة</h2>
+          <div class="status" id="statusText">الشهادة الحالية: المتدرب</div>
+        </div>
+
+        <div class="preview-wrap">
+          <div class="certificate male" id="certificate">
+            <div class="name-layer" id="nameLayer">الاسم هنا</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { jsPDF } = window.jspdf;
+
+    const maleBtn = document.getElementById('maleBtn');
+    const femaleBtn = document.getElementById('femaleBtn');
+    const traineeName = document.getElementById('traineeName');
+    const previewBtn = document.getElementById('previewBtn');
+    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+    const downloadPngBtn = document.getElementById('downloadPngBtn');
+    const certificate = document.getElementById('certificate');
+    const nameLayer = document.getElementById('nameLayer');
+    const statusText = document.getElementById('statusText');
+
+    let gender = 'male';
+
+    function updateType() {
+      const isMale = gender === 'male';
+      maleBtn.classList.toggle('active', isMale);
+      femaleBtn.classList.toggle('active', !isMale);
+      certificate.classList.toggle('male', isMale);
+      certificate.classList.toggle('female', !isMale);
+      statusText.textContent = isMale ? 'الشهادة الحالية: المتدرب' : 'الشهادة الحالية: المتدربة';
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const name = traineeName.value.trim() || 'الاسم هنا';
+      nameLayer.textContent = name;
+    }
+
+    async function renderCanvas() {
+      updatePreview();
+      return await html2canvas(certificate, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null
+      });
+    }
+
+    async function downloadPNG() {
+      const name = traineeName.value.trim();
+      if (!name) {
+        alert('اكتب الاسم أولاً');
+        return;
+      }
+
+      const canvas = await renderCanvas();
+      const link = document.createElement('a');
+      const safeName = name.replace(/[\\/:*?"<>|]/g, '_');
+      link.download = `${safeName}-${gender === 'male' ? 'المتدرب' : 'المتدربة'}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    async function downloadPDF() {
+      const name = traineeName.value.trim();
+      if (!name) {
+        alert('اكتب الاسم أولاً');
+        return;
+      }
+
+      const canvas = await renderCanvas();
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+      });
+
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      const safeName = name.replace(/[\\/:*?"<>|]/g, '_');
+      pdf.save(`${safeName}-${gender === 'male' ? 'المتدرب' : 'المتدربة'}.pdf`);
+    }
+
+    maleBtn.addEventListener('click', () => {
+      gender = 'male';
+      updateType();
+    });
+
+    femaleBtn.addEventListener('click', () => {
+      gender = 'female';
+      updateType();
+    });
+
+    traineeName.addEventListener('input', updatePreview);
+    previewBtn.addEventListener('click', updatePreview);
+    downloadPdfBtn.addEventListener('click', downloadPDF);
+    downloadPngBtn.addEventListener('click', downloadPNG);
+
+    updateType();
+  </script>
+</body>
+</html>
