@@ -242,15 +242,7 @@
       .header h1 { font-size: 24px; }
       .certificate { transform: scale(.48); margin: -205px auto -205px; }
     }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="card header">
-      <h1>نظام إصدار شهادة المتدرب والمتدربة</h1>
-      <p>
-        عند فتح الرابط سيظهر اختيار النوع: <strong>ذكر</strong> أو <strong>أنثى</strong>، ثم تكتب الاسم فقط، وبعدها تضغط تحميل.
-        إذا كان الاختيار ذكر ينزل الاسم على شهادة <strong>المتدرب</strong>، وإذا كان أنثى ينزل الاسم على شهادة <strong>المتدربة</strong>.
+
       </p>
     </div>
 
@@ -273,14 +265,13 @@
           <button id="previewBtn" class="btn btn-primary" type="button">تحديث المعاينة</button>
         </div>
 
-       <div class="note">
-  ارفع داخل GitHub مجلد باسم <code>assets</code> وضع بداخله الصورتين التاليتين:<br>
-  <code>male-certificate.png</code> لشهادة المتدرب<br>
-  <code>female-certificate.png</code> لشهادة المتدربة<br><br>
-  المهم أن تكون الصورتان بنفس التصميم النهائي للشهادات.
-</div>
+        <div class="note">
+          ارفع داخل GitHub مجلد باسم <code>assets</code> وضع بداخله الصورتين التاليتين:<br>
+          <code>male-certificate.png</code> لشهادة المتدرب<br>
+          <code>female-certificate.png</code> لشهادة المتدربة<br><br>
+          المهم أن تكون الصورتان بنفس التصميم النهائي للشهادات.
         </div>
-        
+      </div>
 
       <div class="card preview-box">
         <div class="topbar">
@@ -296,6 +287,7 @@
       </div>
     </div>
   </div>
+
 
   <script>
     const { jsPDF } = window.jspdf;
