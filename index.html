@@ -215,8 +215,9 @@
    .name-layer {
   position: absolute;
   top: 310px;
-  right: 350px;
+  right: 340px;
   width: 700px;
+  height: 80px;
   text-align: right;
   direction: rtl;
   unicode-bidi: plaintext;
@@ -230,7 +231,6 @@
   padding-bottom: 12px;
   text-shadow: 0 1px 1px rgba(255,255,255,0.45);
 }
-
     @media (max-width: 1100px) {
       .layout { grid-template-columns: 1fr; }
       .form-box { position: static; }
@@ -242,7 +242,15 @@
       .header h1 { font-size: 24px; }
       .certificate { transform: scale(.48); margin: -205px auto -205px; }
     }
-
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card header">
+      <h1>نظام إصدار شهادة المتدرب والمتدربة</h1>
+      <p>
+        عند فتح الرابط سيظهر اختيار النوع: <strong>ذكر</strong> أو <strong>أنثى</strong>، ثم تكتب الاسم فقط، وبعدها تضغط تحميل.
+        إذا كان الاختيار ذكر ينزل الاسم على شهادة <strong>المتدرب</strong>، وإذا كان أنثى ينزل الاسم على شهادة <strong>المتدربة</strong>.
       </p>
     </div>
 
@@ -287,7 +295,6 @@
       </div>
     </div>
   </div>
-
 
   <script>
     const { jsPDF } = window.jspdf;
